@@ -33,6 +33,10 @@
         compatible = "zmk,sensors";
         triggers-per-rotation = <20>;
     };
+
+    usb {
+        status = "okay";
+    };
 };
 
 &pro_micro_spi {

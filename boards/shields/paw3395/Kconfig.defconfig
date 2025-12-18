@@ -6,4 +6,10 @@ config ZMK_POINTING
 config SPI
     default y
 
+config ZMK_USB
+    default y
+
+config ZMK_BLE
+    default n
+
 endif
