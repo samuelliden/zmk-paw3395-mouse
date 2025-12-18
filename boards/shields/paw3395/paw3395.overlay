@@ -1,0 +1,66 @@
+// SPDX-License-Identifier: MIT
+
+#include <dt-bindings/input/input-event-codes.h>
+#include <dt-bindings/zmk/input_transform.h>
+
+/ {
+    chosen {
+        zmk,physical-layout = &paw3395_layout;
+    };
+
+    paw3395_layout: paw3395_layout {
+        compatible = "zmk,physical-layout";
+        display-name = "PAW3395 Mouse";
+        transform = <&paw3395_transform>;
+        keys = <&left_button &right_button &middle_button>;
+    };
+
+    paw3395_transform: paw3395_transform {
+        compatible = "zmk,input-processor-transform";
+        x-codes = <INPUT_REL_X>;
+        y-codes = <INPUT_REL_Y>;
+        type = <INPUT_EV_REL>;
+        x-invert;
+        y-invert;
+    };
+
+    paw3395: paw3395 {
+        compatible = "zmk,input-listener";
+        device = <&paw3395_sensor>;
+        input-processors = <&paw3395_transform>;
+    };
+
+    sensors {
+        compatible = "zmk,sensors";
+        triggers-per-rotation = <20>;
+    };
+
+    buttons {
+        compatible = "gpio-keys";
+        left_button: left_button {
+            gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>;
+            zephyr,code = <INPUT_BTN_LEFT>;
+        };
+        right_button: right_button {
+            gpios = <&pro_micro 1 GPIO_ACTIVE_LOW>;
+            zephyr,code = <INPUT_BTN_RIGHT>;
+        };
+        middle_button: middle_button {
+            gpios = <&pro_micro 2 GPIO_ACTIVE_LOW>;
+            zephyr,code = <INPUT_BTN_MIDDLE>;
+        };
+    };
+};
+
+&pro_micro_spi {
+    status = "okay";
+    cs-gpios = <&pro_micro 7 GPIO_ACTIVE_LOW>;  // Adjust pin as needed
+
+    paw3395_sensor: paw3395@0 {
+        compatible = "pixart,paw3395";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        status = "okay";
+        motion-pin-gpios = <&pro_micro 6 GPIO_ACTIVE_LOW>;  // Adjust pin as needed
+    };
+};

@@ -1,0 +1,9 @@
+if SHIELD_PAW3395
+
+config ZMK_POINTING
+    default y
+
+config SPI
+    default y
+
+endif
