@@ -45,5 +45,6 @@
         spi-max-frequency = <2000000>;
         status = "okay";
         motion-pin-gpios = <&pro_micro 6 GPIO_ACTIVE_LOW>;  // Adjust pin as needed
+        cpi = <26000>;
     };
 };
