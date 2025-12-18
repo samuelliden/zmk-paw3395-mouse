@@ -12,7 +12,6 @@
         compatible = "zmk,physical-layout";
         display-name = "PAW3395 Mouse";
         transform = <&paw3395_transform>;
-        keys = <&left_button &right_button &middle_button>;
     };
 
     paw3395_transform: paw3395_transform {
@@ -33,22 +32,6 @@
     sensors {
         compatible = "zmk,sensors";
         triggers-per-rotation = <20>;
-    };
-
-    buttons {
-        compatible = "gpio-keys";
-        left_button: left_button {
-            gpios = <&pro_micro 0 GPIO_ACTIVE_LOW>;
-            zephyr,code = <INPUT_BTN_LEFT>;
-        };
-        right_button: right_button {
-            gpios = <&pro_micro 1 GPIO_ACTIVE_LOW>;
-            zephyr,code = <INPUT_BTN_RIGHT>;
-        };
-        middle_button: middle_button {
-            gpios = <&pro_micro 2 GPIO_ACTIVE_LOW>;
-            zephyr,code = <INPUT_BTN_MIDDLE>;
-        };
     };
 };
 
