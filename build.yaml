@@ -12,9 +12,9 @@
 #
 ---
 
-board: ["xiao_ble"]
+board: ["xiao_nrf52840"]
 shield: ["paw3395"]
 include:
-  - board: xiao_ble
+  - board: xiao_nrf52840
     shield: paw3395
     artifact-name: PAW3395 Mouse

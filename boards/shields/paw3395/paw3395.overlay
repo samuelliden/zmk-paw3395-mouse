@@ -3,7 +3,18 @@
 #include <dt-bindings/input/input-event-codes.h>
 #include <dt-bindings/zmk/input_transform.h>
 
-/ {
+/ {/ {
+    aliases {
+        neopixel_power = &neopixel_power;
+    };
+    leds {
+        compatible = "gpio-leds";
+        neopixel_power: neopixel_power {
+            gpios = <&gpio0 18 GPIO_ACTIVE_HIGH>;
+            label = "NEOPIXEL_PWR";
+        };
+    };
+};
     chosen {
         zmk,physical-layout = &paw3395_layout;
     };
