@@ -29,12 +29,10 @@ jobs:
         run: west init -l config
       - name: West update
         run: west update
-      - name: West config ZMK
-        run: west config build.cmake-args -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
       - name: West build
-        run: west build -s zmk/app -d build -b xiao_nrf52840 -- -DZMK_CONFIG="$(pwd)/config" -DZMK_EXTRA_MODULES="$(pwd)"
+        run: west build -s zmk/app -d build -b xiao_nrf52840 -S paw3395 -- -DZMK_CONFIG="$(pwd)/config" -DZMK_EXTRA_MODULES="$(pwd)"
       - name: Archive firmware
         uses: actions/upload-artifact@v4
         with:
-          name: PAW3395 Mouse
+          name: PAW3395-Mouse-Firmware
           path: build/zephyr/zmk.uf2
