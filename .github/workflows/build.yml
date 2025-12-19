@@ -3,4 +3,44 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v3.5
+    runs-on: ubuntu-latest
+    container: zmkfirmware/zmk-build-arm:3.5
+    strategy:
+      matrix:
+        include:
+          - board: seeeduino_xiao_ble
+            shield: paw3395
+            artifact-name: PAW3395 Mouse
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Cache west modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-zephyr-modules
+        with:
+          path: |
+            .west
+            zephyr
+            modules
+            tools
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('manifest-dir/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: West init
+        run: west init -l config
+      - name: West update
+        run: west update
+      - name: West config ZMK
+        run: west config build.cmake-args -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
+      - name: West build
+        run: west build -d build -b ${{ matrix.board }} -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
+      - name: Archive firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: build/zephyr/zmk.uf2
