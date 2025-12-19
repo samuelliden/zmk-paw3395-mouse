@@ -5,16 +5,11 @@
 # pass flags to the build command, `snippet` to add a Zephyr snippet, and
 # `artifact-name` to assign a name to distinguish build outputs from each other:
 #
-# board: [ "Seeduino_xiao_nrf52840" ]
-# include:
-#   - board: seeeduino_xiao_nrf52840
-#     artifact-name: Ribbon mouse
-#
 ---
 
-board: ["xiao_nrf52840"]
+board: ["xiao_ble"]
 shield: ["paw3395"]
 include:
-  - board: xiao_nrf52840
+  - board: xiao_ble
     shield: paw3395
     artifact-name: PAW3395 Mouse
