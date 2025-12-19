@@ -38,7 +38,7 @@ jobs:
       - name: West config ZMK
         run: west config build.cmake-args -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
       - name: West build
-        run: west build -d build -b ${{ matrix.board }} -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
+        run: west build -s zmk/app -d build -b ${{ matrix.board }} -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
       - name: Archive firmware
         uses: actions/upload-artifact@v4
         with:
