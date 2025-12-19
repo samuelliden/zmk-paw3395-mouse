@@ -12,9 +12,9 @@
 #
 ---
 
-board: ["seeeduino_xiao_ble"]
+board: ["xiao_ble"]
 shield: ["paw3395"]
 include:
-  - board: seeeduino_xiao_ble
+  - board: xiao_ble
     shield: paw3395
     artifact-name: PAW3395 Mouse
