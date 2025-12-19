@@ -5,12 +5,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: zmkfirmware/zmk-build-arm:3.5
-    strategy:
-      matrix:
-        include:
-          - board: xiao_ble
-            shield: paw3395
-            artifact-name: PAW3395 Mouse
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,9 +32,9 @@ jobs:
       - name: West config ZMK
         run: west config build.cmake-args -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
       - name: West build
-        run: west build -s zmk/app -d build -b ${{ matrix.board }} -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD="${{ matrix.shield }}" -DZMK_EXTRA_MODULES="$(pwd)"
+        run: west build -s zmk/app -d build -b xiao_ble -- -DZMK_CONFIG="$(pwd)/config" -DSHIELD=paw3395 -DZMK_EXTRA_MODULES="$(pwd)"
       - name: Archive firmware
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}
+          name: PAW3395 Mouse
           path: build/zephyr/zmk.uf2
