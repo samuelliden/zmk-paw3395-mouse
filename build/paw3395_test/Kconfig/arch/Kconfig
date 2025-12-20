@@ -1,0 +1,11 @@
+# Load Zephyr Arch Kconfig descriptions.
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/x86/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/xtensa/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/sparc/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/riscv/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/posix/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/nios2/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/mips/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/arm64/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/arm/Kconfig"
+osource "/workspaces/unified-zmk-config-template/zephyr/arch/arc/Kconfig"

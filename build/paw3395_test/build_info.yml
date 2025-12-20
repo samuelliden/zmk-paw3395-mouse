@@ -1,0 +1,70 @@
+cmake:
+  application:
+    configuration-dir: /workspaces/unified-zmk-config-template/zmk/app
+    source-dir: /workspaces/unified-zmk-config-template/zmk/app
+  board:
+    name: xiao_ble
+    path:
+     - /workspaces/unified-zmk-config-template/zephyr/boards/seeed/xiao_ble
+    qualifiers: nrf52840
+    revision: 
+  devicetree:
+    bindings-dirs:
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-driver/dts/bindings
+     - /workspaces/unified-zmk-config-template/zmk/app/module/dts/bindings
+     - /workspaces/unified-zmk-config-template/zmk/app/dts/bindings
+     - /workspaces/unified-zmk-config-template/zephyr/dts/bindings
+    extra-user-files:
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-mouse/boards/shields/paw3395/paw3395.keymap
+    files:
+     - /workspaces/unified-zmk-config-template/zephyr/boards/seeed/xiao_ble/xiao_ble.dts
+     - /workspaces/unified-zmk-config-template/zmk/app/boards/extensions/xiao_ble/xiao_ble.overlay
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-mouse/boards/shields/paw3395/paw3395.overlay
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-mouse/boards/shields/paw3395/paw3395.keymap
+    include-dirs:
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-driver/include
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-driver/dts
+     - /workspaces/unified-zmk-config-template/modules/hal/atmel/include
+     - /workspaces/unified-zmk-config-template/modules/hal/gigadevice/include
+     - /workspaces/unified-zmk-config-template/modules/hal/nuvoton/dts
+     - /workspaces/unified-zmk-config-template/modules/hal/stm32/dts
+     - /workspaces/unified-zmk-config-template/zmk/app/module/include
+     - /workspaces/unified-zmk-config-template/zmk/app/module/dts
+     - /workspaces/unified-zmk-config-template/zmk/app/include
+     - /workspaces/unified-zmk-config-template/zmk/app/dts/common
+     - /workspaces/unified-zmk-config-template/zmk/app/dts
+     - /workspaces/unified-zmk-config-template/zephyr/include
+     - /workspaces/unified-zmk-config-template/zephyr/include/zephyr
+     - /workspaces/unified-zmk-config-template/zephyr/dts/common
+     - /workspaces/unified-zmk-config-template/zephyr/dts/x86
+     - /workspaces/unified-zmk-config-template/zephyr/dts/xtensa
+     - /workspaces/unified-zmk-config-template/zephyr/dts/sparc
+     - /workspaces/unified-zmk-config-template/zephyr/dts/riscv
+     - /workspaces/unified-zmk-config-template/zephyr/dts/posix
+     - /workspaces/unified-zmk-config-template/zephyr/dts/nios2
+     - /workspaces/unified-zmk-config-template/zephyr/dts/arm64
+     - /workspaces/unified-zmk-config-template/zephyr/dts/arm
+     - /workspaces/unified-zmk-config-template/zephyr/dts/arc
+     - /workspaces/unified-zmk-config-template/zephyr/dts
+  kconfig:
+    files:
+     - /workspaces/unified-zmk-config-template/zephyr/boards/seeed/xiao_ble/xiao_ble_defconfig
+     - /workspaces/unified-zmk-config-template/zmk/app/boards/extensions/xiao_ble/xiao_ble.conf
+     - /workspaces/unified-zmk-config-template/zmk/app/prj.conf
+     - /workspaces/unified-zmk-config-template/zmk-paw3395-mouse/boards/shields/paw3395/paw3395.conf
+    user-files:
+     - /workspaces/unified-zmk-config-template/zmk/app/prj.conf
+  toolchain:
+    name: zephyr
+    path: /home/codespace/zephyr-sdk-0.16.8
+  vendor-specific:
+    nordic:
+      svdfile: /workspaces/unified-zmk-config-template/modules/hal/nordic/nrfx/mdk/nrf52840.svd
+  zephyr:
+    version: 4.1.0
+    zephyr-base: /workspaces/unified-zmk-config-template/zephyr
+version: 0.1.0
+west:
+  command: /home/codespace/.python/current/bin/west build -s zmk/app -d build/paw3395_test -b xiao_ble -- -DSHIELD=paw3395
+  topdir: /workspaces/unified-zmk-config-template
+  version: 1.5.0

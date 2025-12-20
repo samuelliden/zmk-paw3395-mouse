@@ -1,0 +1,2 @@
+osource "/workspaces/unified-zmk-config-template/zmk-paw3395-mouse/boards/shields/*/Kconfig.shield"
+osource "/workspaces/unified-zmk-config-template/zmk/app/boards/shields/*/Kconfig.shield"
