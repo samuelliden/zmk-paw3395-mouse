@@ -2,3 +2,16 @@
 .zmk/
 build/
 .west
+
+# West workspace
+.west/
+modules/
+tools/
+zephyr/
+bootloader/
+zmk/
+zmk-paw3395-driver/
+zmk-paw3395-mouse/
+
+# Build artifacts
+build/

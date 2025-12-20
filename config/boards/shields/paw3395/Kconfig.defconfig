@@ -1,0 +1,22 @@
+if SHIELD_PAW3395
+
+config ZMK_POINTING
+    default y
+
+config SPI
+    default y
+
+config ZMK_USB
+    default y
+
+config ZMK_BLE
+    default n
+
+config PAW3395_NEOPIXEL_POWER
+    bool "Enable LED power control delay"
+    default y
+    help
+      Enable 2-second delay before powering on LEDs via SWDIO pin.
+      Required for this hardware design.
+
+endif

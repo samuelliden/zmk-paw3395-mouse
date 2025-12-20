@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: MIT
+
+#include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/input/input-event-codes.h>
+
+/ {
+    aliases {
+        led-power = &led_power;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        led_power: led_power {
+            gpios = <&gpio0 18 GPIO_ACTIVE_HIGH>;
+            label = "LED_POWER";
+        };
+    };
+
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,matrix-transform = &default_transform;
+    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <1>;
+        rows = <1>;
+        map = <RC(0,0)>;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+        input-gpios = <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    };
+
+    mouse_input_listener {
+        compatible = "zmk,input-listener";
+        device = <&paw3395_sensor>;
+    };
+};
+
+&xiao_spi {
+    status = "okay";
+    cs-gpios = <&xiao_d 7 GPIO_ACTIVE_LOW>;
+
+    paw3395_sensor: paw3395@0 {
+        compatible = "pixart,paw3395";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        status = "okay";
+        label = "PAW3395";
+        irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        cpi = <800>;
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+    };
+};

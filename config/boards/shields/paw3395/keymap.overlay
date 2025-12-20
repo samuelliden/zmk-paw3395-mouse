@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: MIT
+
+#include <dt-bindings/zmk/mouse.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <>;
+        };
+    };
+};
