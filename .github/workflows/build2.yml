@@ -34,14 +34,12 @@ jobs:
         shell: sh -x {0}
         run: |
           echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
-          echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/project/config\"" >> $GITHUB_ENV
+          echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/config\"" >> $GITHUB_ENV
           echo "display_name=${shield:+$shield - }${board}${artifact_name:+ - $artifact_name}" >> $GITHUB_ENV
           echo "artifact_name=${artifact_name:-${shield:+$shield-}${board}-zmk}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: project
 
       - name: Cache west modules
         uses: actions/cache@v4
@@ -55,17 +53,14 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('project/config/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('config/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache_name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - name: West Init
-        run: |
-          west init -l project/config
-          echo "=== Verifying .west was created ==="
-          ls -la .west/
+        run: west init -l config
 
       - name: West Update
         run: west update
@@ -75,7 +70,7 @@ jobs:
 
       - name: West Build (${{ env.display_name }})
         shell: sh -x {0}
-        run: west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/project/config" ${{ env.extra_cmake_args }}
+        run: west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" ${{ env.extra_cmake_args }}
 
       - name: ${{ env.display_name }} Kconfig file
         run: grep -v -e "^#" -e "^$" build/zephyr/.config | sort
