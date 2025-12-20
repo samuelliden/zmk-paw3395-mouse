@@ -34,7 +34,7 @@ jobs:
         shell: sh -x {0}
         run: |
           echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
-          echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/config\"" >> $GITHUB_ENV
+          echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/config/config\"" >> $GITHUB_ENV
           echo "display_name=${shield:+$shield - }${board}${artifact_name:+ - $artifact_name}" >> $GITHUB_ENV
           echo "artifact_name=${artifact_name:-${shield:+$shield-}${board}-zmk}" >> $GITHUB_ENV
 
