@@ -32,6 +32,11 @@ jobs:
     steps:
       - name: Prepare variables
         shell: sh -x {0}
+        env:
+          board: ${{ matrix.board }}
+          shield: ${{ matrix.shield }}
+          artifact_name: ${{ matrix.artifact_name }}
+          snippet: ${{ matrix.snippet }}
         run: |
           echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
           echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/config\"" >> $GITHUB_ENV
@@ -91,4 +96,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}
+          path: build/artifacts
+          path: build/artifacts          name: ${{ env.artifact_name }}          name: ${{ env.artifact_name }}
           path: build/artifacts
