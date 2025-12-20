@@ -97,5 +97,3 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: build/artifacts
-          path: build/artifacts          name: ${{ env.artifact_name }}          name: ${{ env.artifact_name }}
-          path: build/artifacts
