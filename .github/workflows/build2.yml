@@ -63,16 +63,7 @@ jobs:
 
       - name: West Init
         run: |
-          echo "=== Checking directory structure ==="
-          pwd
-          ls -la
-          echo "=== Checking project directory ==="
-          ls -la project/
-          echo "=== Checking for west.yml ==="
-          ls -la project/config/west.yml
-          cat project/config/west.yml
-          echo "=== Running west init ==="
-          west init -l project/config -v
+          west init -l project/config
           echo "=== Verifying .west was created ==="
           ls -la .west/
 
