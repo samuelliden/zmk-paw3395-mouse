@@ -40,12 +40,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Remove existing .west directory if present
-        run: |
-          if [ -d .west ]; then
-            rm -rf .west
-          fi
+        with:
+          path: config
 
       - name: Cache west modules
         uses: actions/cache@v4
@@ -59,14 +55,14 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('config/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('config/config/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache_name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - name: West Init
-        run: west init -l config
+        run: west init -l config/config
 
       - name: West Update
         run: west update
@@ -76,7 +72,7 @@ jobs:
 
       - name: West Build (${{ env.display_name }})
         shell: sh -x {0}
-        run: west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" ${{ env.extra_cmake_args }}
+        run: west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config/config" ${{ env.extra_cmake_args }}
 
       - name: ${{ env.display_name }} Kconfig file
         run: grep -v -e "^#" -e "^$" build/zephyr/.config | sort
