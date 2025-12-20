@@ -1,5 +1,0 @@
-west:
-  command: /home/codespace/.python/current/bin/west build -s zmk/app -d build/paw3395_test
-    -b xiao_ble -- -DSHIELD=paw3395
-  topdir: /workspaces/unified-zmk-config-template
-  version: 1.5.0

@@ -1,8 +1,0 @@
-board:
-  name: legend
-  full_name: Legend
-  vendor: seagate
-  revision:
-    format: custom
-  socs:
-    - name: stm32f070xb

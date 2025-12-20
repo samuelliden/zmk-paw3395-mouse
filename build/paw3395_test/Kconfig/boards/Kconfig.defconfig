@@ -1,2 +1,0 @@
-# Load Zephyr board defconfig descriptions.
-osource "/workspaces/unified-zmk-config-template/zephyr/boards/seeed/xiao_ble/Kconfig.defconfig"

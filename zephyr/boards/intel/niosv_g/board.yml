@@ -1,5 +1,0 @@
-board:
-  name: niosv_g
-  full_name: INTEL FPGA niosv_g
-  socs:
-    - name: niosv_g

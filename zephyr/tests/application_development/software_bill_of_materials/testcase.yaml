@@ -1,8 +1,0 @@
-common:
-  tags:
-    - spdx
-  integration_platforms:
-    - native_sim
-  harness: ctest
-tests:
-  sbom.spdx: {}
