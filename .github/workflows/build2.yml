@@ -34,17 +34,14 @@ jobs:
         shell: sh -x {0}
         run: |
           echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
-          echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/project/config\"" >> $GITHUB_ENV
+          echo "extra_cmake_args=${shield:+-DSHIELD=\"$shield\"}${snippet:+ -DSNIPPET=\"$snippet\"}${artifact_name:+ -DCONFIG_ZMK_KEYBOARD_NAME=\"$artifact_name\"} -DBOARD_ROOT=\"$GITHUB_WORKSPACE/config\"" >> $GITHUB_ENV
           echo "display_name=${shield:+$shield - }${board}${artifact_name:+ - $artifact_name}" >> $GITHUB_ENV
           echo "artifact_name=${artifact_name:-${shield:+$shield-}${board}-zmk}" >> $GITHUB_ENV
-
-      - name: Create workspace
-        run: mkdir -p workspace
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: workspace/project
+          path: config
 
       - name: Cache west modules
         uses: actions/cache@v4
@@ -53,40 +50,34 @@ jobs:
           cache_name: cache-zephyr-${{ env.zephyr_version }}-modules
         with:
           path: |
-            workspace/modules/
-            workspace/tools/
-            workspace/zephyr/
-            workspace/bootloader/
-            workspace/zmk/
-          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('workspace/project/config/west.yml') }}
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('config/config/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache_name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - name: West Init
-        working-directory: workspace
-        run: west init -l project/config
+        run: west init -l config/config
 
       - name: West Update
-        working-directory: workspace
         run: west update
 
       - name: West Zephyr export
-        working-directory: workspace
         run: west zephyr-export
 
       - name: West Build (${{ env.display_name }})
-        working-directory: workspace
         shell: sh -x {0}
-        run: west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="$GITHUB_WORKSPACE/workspace/project/config" ${{ env.extra_cmake_args }}
+        run: west build -s zmk/app -b ${{ matrix.board }} -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config/config" ${{ env.extra_cmake_args }}
 
       - name: ${{ env.display_name }} Kconfig file
-        working-directory: workspace
         run: grep -v -e "^#" -e "^$" build/zephyr/.config | sort
 
       - name: Rename artifacts
-        working-directory: workspace
         shell: sh -x {0}
         run: |
           mkdir -p build/artifacts
@@ -102,4 +93,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}
-          path: workspace/build/artifacts
+          path: build/artifacts
