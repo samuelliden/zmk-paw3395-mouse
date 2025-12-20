@@ -43,6 +43,19 @@ jobs:
         with:
           path: config
 
+      - name: Debug - Check structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Directory structure:"
+          ls -la
+          echo "Config directory:"
+          ls -la config/
+          echo "Config/config directory:"
+          ls -la config/config/ || echo "config/config not found"
+          echo "Looking for west.yml:"
+          find . -name "west.yml" -type f
+
       - name: Cache west modules
         uses: actions/cache@v4
         continue-on-error: true
@@ -62,7 +75,10 @@ jobs:
             ${{ runner.os }}-
 
       - name: West Init
-        run: west init -l config/config
+        run: |
+          ls -la config/config/west.yml
+          west init -l config/config
+          ls -la .west/
 
       - name: West Update
         run: west update
