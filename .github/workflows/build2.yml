@@ -87,7 +87,8 @@ jobs:
           if [ -f build/zephyr/zmk.uf2 ]
           then
             cp build/zephyr/zmk.uf2 "build/artifacts/${{ env.artifact_name }}.uf2"
-          elif [ -f build/zephyr/zmk.hex ]
+          fi
+          if [ -f build/zephyr/zmk.hex ]
           then
             cp build/zephyr/zmk.hex "build/artifacts/${{ env.artifact_name }}.hex"
           fi
