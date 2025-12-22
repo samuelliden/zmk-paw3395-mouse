@@ -16,7 +16,7 @@ config PAW3395_NEOPIXEL_POWER
     bool "Enable LED power control delay"
     default y
     help
-      Enable 2-second delay before powering on LEDs via SWDIO pin.
+      Enable 2-second delay before powering on LEDs via SWCLK pin.
       Required for this hardware design.
 
 endif

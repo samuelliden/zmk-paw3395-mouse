@@ -1,11 +1,13 @@
 manifest:
+  defaults:
+    remote: zmkfirmware
+  
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
     - name: badjeff
       url-base: https://github.com/badjeff
-    - name: samuelliden
-      url-base: https://github.com/samuelliden
+
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -14,8 +16,7 @@ manifest:
     - name: zmk-paw3395-driver
       remote: badjeff
       revision: main
-    - name: zmk-paw3395-mouse
-      remote: samuelliden
-      revision: main
+      path: zmk-paw3395-driver
+  
   self:
     path: config
