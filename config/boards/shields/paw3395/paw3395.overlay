@@ -65,7 +65,7 @@
     paw3395_sensor: paw3395@0 {
         compatible = "pixart,paw3395";
         reg = <0>;
-        spi-max-frequency = <2000000>;
+        spi-max-frequency = <1000000>;
         status = "okay";
         label = "PAW3395";
         irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;

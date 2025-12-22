@@ -2,23 +2,13 @@
 
 #include <dt-bindings/input/input-event-codes.h>
 #include <dt-bindings/zmk/input_transform.h>
+#include <dt-bindings/led/led.h>
+#include "paw3395-pinctrl.dtsi"
 
 / {
-    aliases {
-        neopixel-power = &neopixel_power;
-    };
-
-    leds {
-        compatible = "gpio-leds";
-        neopixel_power: neopixel_power {
-            gpios = <&gpio0 18 GPIO_ACTIVE_HIGH>;
-            label = "NEOPIXEL_PWR";
-        };
-    };
-};
-
     chosen {
         zmk,physical-layout = &paw3395_layout;
+        zmk,underglow = &led_strip;
     };
 
     paw3395_layout: paw3395_layout {
@@ -45,6 +35,15 @@
     sensors {
         compatible = "zmk,sensors";
         triggers-per-rotation = <20>;
+        sensors = <&encoder_1>;
+    };
+
+    encoder_1: encoder_1 {
+        compatible = "alps,ec11";
+        a-gpios = <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D2 - Scrollwheel
+        b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D7 - Scrollwheel
+        steps = <80>;
+        status = "okay";
     };
 
     usb {
@@ -52,16 +51,43 @@
     };
 };
 
-&pro_micro_spi {
+&xiao_spi {
     status = "okay";
-    cs-gpios = <&pro_micro 7 GPIO_ACTIVE_LOW>;  // Adjust pin as needed
+    cs-gpios = <&xiao_d 6 GPIO_ACTIVE_LOW>;  // D6 - NCS signal to PAW3395
 
     paw3395_sensor: paw3395@0 {
         compatible = "pixart,paw3395";
         reg = <0>;
         spi-max-frequency = <2000000>;
         status = "okay";
-        motion-pin-gpios = <&pro_micro 6 GPIO_ACTIVE_LOW>;  // Adjust pin as needed
+        motion-pin-gpios = <&xiao_d 5 GPIO_ACTIVE_LOW>;  // D5 - Motion signal from PAW3395
         cpi = <26000>;
+    };
+};
+
+&xiao_serial {
+    status = "disabled";  // Disable UART to free up D6/D7 for other uses
+};
+
+// SK6812MINI-E LEDs on D0 (P0.2)
+&spi3 {
+    compatible = "nordic,nrf-spim";
+    status = "okay";
+    
+    pinctrl-0 = <&spi3_led>;
+    pinctrl-names = "default";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        
+        /* SPI */
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+
+        /* WS2812 */
+        chain-length = <2>; // 2x SK6812MINI-E LEDs
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };

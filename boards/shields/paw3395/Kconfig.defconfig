@@ -12,4 +12,19 @@ config ZMK_USB
 config ZMK_BLE
     default n
 
+config ZMK_MOUSE
+    default y
+
+config ZMK_RGB_UNDERGLOW
+    default y
+
+config WS2812_STRIP
+    default y
+
+config EC11
+    default y
+
+config EC11_TRIGGER_GLOBAL_THREAD
+    default y
+
 endif
