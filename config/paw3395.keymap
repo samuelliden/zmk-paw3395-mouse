@@ -1,5 +1,6 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/mouse.h>
 
 / {
     keymap {
@@ -7,8 +8,11 @@
         
         default_layer {
             bindings = <
-                &kp A
+                &kp F13          // D1 - Button (can be customized)
+                &mkp LCLK        // D3 - Mouse switch 1 (Left Click)
+                &mkp RCLK        // D4 - Mouse switch 2 (Right Click)
             >;
+            sensor-bindings = <&inc_dec_kp UP DOWN>;  // Scrollwheel
         };
     };
 };

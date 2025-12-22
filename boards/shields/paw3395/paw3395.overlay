@@ -7,6 +7,7 @@
 
 / {
     chosen {
+        zmk,kscan = &kscan0;
         zmk,physical-layout = &paw3395_layout;
         zmk,underglow = &led_strip;
     };
@@ -46,6 +47,17 @@
         status = "okay";
     };
 
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+        
+        input-gpios
+            = <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D1 - Button
+            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D3 - Mouse switch 1
+            , <&xiao_d 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D4 - Mouse switch 2
+            ;
+    };
+
     usb {
         status = "okay";
     };
@@ -67,6 +79,10 @@
 
 &xiao_serial {
     status = "disabled";  // Disable UART to free up D6/D7 for other uses
+};
+
+&xiao_i2c {
+    status = "disabled";  // Disable I2C to free up D4/D5 for other uses
 };
 
 // SK6812MINI-E LEDs on D0 (P0.2)

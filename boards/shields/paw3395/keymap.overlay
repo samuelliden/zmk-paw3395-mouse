@@ -4,17 +4,6 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-direct";
-        wakeup-source;
-        
-        input-gpios
-            = <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D1 - Button
-            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D3 - Mouse switch 1
-            , <&xiao_d 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D4 - Mouse switch 2
-            ;
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -24,6 +13,8 @@
                 &mkp LCLK        // D3 - Mouse switch 1 (Left Click)
                 &mkp RCLK        // D4 - Mouse switch 2 (Right Click)
             >;
+            
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;  // Scrollwheel
         };
     };
 };
