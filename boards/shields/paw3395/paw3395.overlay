@@ -10,6 +10,15 @@
         zmk,kscan = &kscan0;
         zmk,physical-layout = &paw3395_layout;
         zmk,underglow = &led_strip;
+        zmk,battery = &vbatt;
+    };
+
+    vbatt: vbatt {
+        compatible = "zmk,battery-voltage-divider";
+        io-channels = <&adc 7>;
+        power-gpios = <&gpio0 14 (GPIO_OPEN_DRAIN | GPIO_ACTIVE_LOW)>;
+        output-ohms = <510000>;
+        full-ohms = <(1000000 + 510000)>;
     };
 
     paw3395_layout: paw3395_layout {
@@ -83,6 +92,10 @@
 
 &xiao_i2c {
     status = "disabled";  // Disable I2C to free up D4/D5 for other uses
+};
+
+&adc {
+    status = "okay";
 };
 
 // SK6812MINI-E LEDs on D0 (P0.2)
