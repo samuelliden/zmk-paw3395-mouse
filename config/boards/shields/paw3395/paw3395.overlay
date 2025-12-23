@@ -94,6 +94,7 @@
 
 // PAW3395 sensor on main SPI bus
 &xiao_spi {
+    compatible = "nordic,nrf-spim";
     status = "okay";
     pinctrl-0 = <&spi2_default>;
     pinctrl-1 = <&spi2_sleep>;
