@@ -10,7 +10,7 @@ config ZMK_USB
     default y
 
 config ZMK_BLE
-    default n
+    default y
 
 config PAW3395_NEOPIXEL_POWER
     bool "Enable LED power control delay"

@@ -3,6 +3,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/input/input-event-codes.h>
 #include <dt-bindings/led/led.h>
+#include "paw3395-pinctrl.dtsi"
 
 / {
     aliases {
@@ -21,6 +22,15 @@
         zmk,kscan = &kscan0;
         zmk,matrix-transform = &default_transform;
         zmk,underglow = &led_strip;
+        zmk,battery = &vbatt;
+    };
+
+    vbatt: vbatt {
+        compatible = "zmk,battery-voltage-divider";
+        io-channels = <&adc 7>;
+        power-gpios = <&gpio0 14 (GPIO_OPEN_DRAIN | GPIO_ACTIVE_LOW)>;
+        output-ohms = <510000>;
+        full-ohms = <(1000000 + 510000)>;
     };
 
     default_transform: keymap_transform_0 {
@@ -59,22 +69,30 @@
     };
 };
 
-&xiao_spi {
+&adc {
+    status = "okay";
+};
+
+// SK6812MINI-E LEDs on D0 (P0.2) - Use SPI3
+&spi3 {
+    compatible = "nordic,nrf-spim";
     status = "okay";
     
+    pinctrl-0 = <&spi3_led>;
+    pinctrl-names = "default";
+
     led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;
-        chain-length = <2>;  /* 2 SK6812MINI-E LEDs */
+        chain-length = <2>;
         spi-one-frame = <0x70>;
         spi-zero-frame = <0x40>;
-        color-mapping = <LED_COLOR_ID_GREEN
-                         LED_COLOR_ID_RED
-                         LED_COLOR_ID_BLUE>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
 
+// PAW3395 sensor on main SPI bus
 &xiao_spi {
     status = "okay";
     cs-gpios = <&xiao_d 6 GPIO_ACTIVE_LOW>;  // D6 - NCS signal to PAW3395
@@ -91,4 +109,12 @@
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
     };
+};
+
+&xiao_serial {
+    status = "disabled";
+};
+
+&xiao_i2c {
+    status = "disabled";
 };
