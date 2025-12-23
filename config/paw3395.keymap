@@ -2,6 +2,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/mouse.h>
 #include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/bt.h>
 
 / {
     keymap {
@@ -9,11 +10,20 @@
         
         default_layer {
             bindings = <
-                &kp F          // D1 - Button: F key
+                &lt 1 F        // D1 - Button: F key (hold for BT layer)
                 &mkp LCLK      // D3 - Mouse switch 1 (Left Click)
                 &mkp RCLK      // D4 - Mouse switch 2 (Right Click)
             >;
             sensor-bindings = <&inc_dec_kp UP DOWN>;  // D2/D7 - Scrollwheel
+        };
+        
+        bt_layer {
+            bindings = <
+                &bt BT_CLR     // Clear all Bluetooth bonds
+                &trans
+                &trans
+            >;
+            sensor-bindings = <&inc_dec_kp UP DOWN>;
         };
     };
 };
