@@ -95,6 +95,9 @@
 // PAW3395 sensor on main SPI bus
 &xiao_spi {
     status = "okay";
+    pinctrl-0 = <&spi2_default>;
+    pinctrl-1 = <&spi2_sleep>;
+    pinctrl-names = "default", "sleep";
     cs-gpios = <&xiao_d 6 GPIO_ACTIVE_LOW>;  // D6 - NCS signal to PAW3395
 
     paw3395_sensor: paw3395@0 {
@@ -103,7 +106,8 @@
         spi-max-frequency = <2000000>;
         status = "okay";
         label = "PAW3395";
-        irq-gpios = <&xiao_d 5 GPIO_ACTIVE_LOW>;  // D5 - Motion signal from PAW3395
+        // D5 (P0.05) has hardware pull-up on XIAO BLE - configure with pull-down
+        irq-gpios = <&xiao_d 5 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>;
         cpi = <26000>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;

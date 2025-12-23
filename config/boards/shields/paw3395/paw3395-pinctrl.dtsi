@@ -1,6 +1,25 @@
 // Pin control configuration for PAW3395 shield
 
 &pinctrl {
+    // SPI2 (xiao_spi) for PAW3395 sensor - D8/D9/D10
+    spi2_default: spi2_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,   // D8 (P1.13)
+                    <NRF_PSEL(SPIM_MOSI, 1, 15)>,  // D10 (P1.15)
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;  // D9 (P1.14)
+        };
+    };
+
+    spi2_sleep: spi2_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 15)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
+            low-power-enable;
+        };
+    };
+
+    // SPI3 for LED strip on D0
     spi3_led: spi3_led {
         group1 {
             psels = <NRF_PSEL(SPIM_MOSI, 0, 2)>;  // D0 (P0.2) for WS2812 LEDs
