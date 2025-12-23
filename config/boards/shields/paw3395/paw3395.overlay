@@ -25,15 +25,32 @@
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
-        columns = <1>;
+        columns = <3>;
         rows = <1>;
-        map = <RC(0,0)>;
+        map = <RC(0,0) RC(0,1) RC(0,2)>;
     };
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-direct";
         wakeup-source;
-        input-gpios = <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        input-gpios
+            = <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D1 - B3U-1000P Button
+            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D3 - Mouse switch 1
+            , <&xiao_d 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // D4 - Mouse switch 2
+            ;
+    };
+    
+    encoder: encoder {
+        compatible = "alps,ec11";
+        a-gpios = <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D2 - Scrollwheel
+        b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D7 - Scrollwheel
+        steps = <80>;
+        status = "okay";
+    };
+    
+    sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&encoder>;
     };
 
     mouse_input_listener {
@@ -60,16 +77,16 @@
 
 &xiao_spi {
     status = "okay";
-    cs-gpios = <&xiao_d 7 GPIO_ACTIVE_LOW>;
+    cs-gpios = <&xiao_d 6 GPIO_ACTIVE_LOW>;  // D6 - NCS signal to PAW3395
 
     paw3395_sensor: paw3395@0 {
         compatible = "pixart,paw3395";
         reg = <0>;
-        spi-max-frequency = <1000000>;
+        spi-max-frequency = <2000000>;
         status = "okay";
         label = "PAW3395";
-        irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        cpi = <800>;
+        irq-gpios = <&xiao_d 5 GPIO_ACTIVE_LOW>;  // D5 - Motion signal from PAW3395
+        cpi = <26000>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;

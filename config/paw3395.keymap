@@ -9,20 +9,11 @@
         
         default_layer {
             bindings = <
-                &lt 1 F          // D1 - Button: F key (hold for RGB layer)
-                &mkp LCLK        // D3 - Mouse switch 1 (Left Click)
-                &mkp RCLK        // D4 - Mouse switch 2 (Right Click)
+                &kp F          // D1 - Button: F key
+                &mkp LCLK      // D3 - Mouse switch 1 (Left Click)
+                &mkp RCLK      // D4 - Mouse switch 2 (Right Click)
             >;
-            sensor-bindings = <&inc_dec_kp UP DOWN>;  // Scrollwheel
-        };
-        
-        rgb_layer {
-            bindings = <
-                &rgb_ug RGB_TOG  // Toggle RGB on/off
-                &trans
-                &trans
-            >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+            sensor-bindings = <&inc_dec_kp UP DOWN>;  // D2/D7 - Scrollwheel
         };
     };
 };
