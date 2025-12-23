@@ -6,6 +6,18 @@
 #include "paw3395-pinctrl.dtsi"
 
 / {
+    aliases {
+        neopixel-power = &neopixel_power;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        neopixel_power: neopixel_power {
+            gpios = <&gpio0 19 GPIO_ACTIVE_HIGH>;
+            label = "NEOPIXEL_POWER";
+        };
+    };
+
     chosen {
         zmk,kscan = &kscan0;
         zmk,physical-layout = &paw3395_layout;

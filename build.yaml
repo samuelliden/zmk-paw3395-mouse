@@ -10,3 +10,4 @@
 include:
   - board: xiao_ble
     shield: paw3395
+    artifact-name: paw3395-xiao_ble-zmk-v${GITHUB_RUN_NUMBER:-local}
