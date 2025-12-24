@@ -96,8 +96,8 @@
 &xiao_spi {
     compatible = "nordic,nrf-spim";
     status = "okay";
-    pinctrl-0 = <&spi2_default>;
-    pinctrl-1 = <&spi2_sleep>;
+    pinctrl-0 = <&xiao_spi_default>;
+    pinctrl-1 = <&xiao_spi_sleep>;
     pinctrl-names = "default", "sleep";
     cs-gpios = <&xiao_d 6 GPIO_ACTIVE_LOW>;  // D6 - NCS signal to PAW3395
 
