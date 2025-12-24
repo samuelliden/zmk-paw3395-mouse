@@ -50,18 +50,19 @@
             ;
     };
     
-    encoder: encoder {
-        compatible = "alps,ec11";
-        a-gpios = <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D2 - Scrollwheel
-        b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D7 - Scrollwheel
-        steps = <80>;
-        status = "okay";
-    };
+    // Encoder temporarily disabled to eliminate resource conflicts
+    // encoder: encoder {
+    //     compatible = "alps,ec11";
+    //     a-gpios = <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D2 - Scrollwheel
+    //     b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // D7 - Scrollwheel
+    //     steps = <80>;
+    //     status = "okay";
+    // };
     
-    sensors {
-        compatible = "zmk,keymap-sensors";
-        sensors = <&encoder>;
-    };
+    // sensors {
+    //     compatible = "zmk,keymap-sensors";
+    //     sensors = <&encoder>;
+    // };
 
     mouse_input_listener {
         compatible = "zmk,input-listener";
@@ -99,16 +100,18 @@
     pinctrl-0 = <&xiao_spi_default>;
     pinctrl-1 = <&xiao_spi_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&xiao_d 6 GPIO_ACTIVE_LOW>;  // D6 - NCS signal to PAW3395
+    // D6 = P1.11 - Explicit GPIO reference to prevent hang
+    cs-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
 
     paw3395_sensor: paw3395@0 {
         compatible = "pixart,paw3395";
         reg = <0>;
-        spi-max-frequency = <1000000>;
+        // Lower frequency during init to prevent SPI lockup
+        spi-max-frequency = <500000>;
         status = "okay";
         label = "PAW3395";
-        // D5 (P0.05) has hardware pull-up on XIAO BLE - software pull-up matches hardware
-        irq-gpios = <&xiao_d 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        // D5 = P0.05 with pull-up
+        irq-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         cpi = <26000>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
