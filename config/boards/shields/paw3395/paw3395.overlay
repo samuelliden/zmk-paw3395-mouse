@@ -104,7 +104,7 @@
     paw3395_sensor: paw3395@0 {
         compatible = "pixart,paw3395";
         reg = <0>;
-        spi-max-frequency = <2000000>;
+        spi-max-frequency = <1000000>;
         status = "okay";
         label = "PAW3395";
         // D5 (P0.05) has hardware pull-up on XIAO BLE - software pull-up matches hardware
