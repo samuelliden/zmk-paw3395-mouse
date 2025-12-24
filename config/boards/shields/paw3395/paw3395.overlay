@@ -107,8 +107,8 @@
         spi-max-frequency = <2000000>;
         status = "okay";
         label = "PAW3395";
-        // D5 (P0.05) has hardware pull-up on XIAO BLE - configure with pull-down
-        irq-gpios = <&xiao_d 5 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>;
+        // D5 (P0.05) has hardware pull-up on XIAO BLE - software pull-up matches hardware
+        irq-gpios = <&xiao_d 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         cpi = <26000>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
